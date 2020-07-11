@@ -1,8 +1,13 @@
 from django.shortcuts import render
-
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django import forms
 from . import util
 import markdown2
 
+
+class NewTasksForm(forms.Form):
+    form = forms.CharField(label="New Task")
 
 def index(request):
     return render(request, "encyclopedia/index.html", {
@@ -22,3 +27,10 @@ def title(request, title):
     else:
         return render(request, "encyclopedia/error.html")
 
+# def search(request):
+#     if request.method == "POST":
+#         search = NewTasksForm(request.POST)
+#         if search.is_valid():
+#             search = search.cleaned_data["form"]
+#             return HttpResponseRedirect(reverse("title", [search]))
+  
