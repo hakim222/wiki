@@ -7,7 +7,13 @@ import markdown2
 
 
 class NewTasksForm(forms.Form):
-    form = forms.CharField(label="search form", widget=forms.TextInput(attrs={'class':'search', 'placeholder':'Search Encyclopedia'}))
+    form = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'search', 'placeholder':'Search Encyclopedia'}))
+
+class NewTitleForm(forms.Form):
+    title = forms.CharField(label="", widget=forms.TextInput(attrs={'id':'title', 'placeholder':'Title', 'class':'form-control'}))
+    
+class NewContentForm(forms.Form):
+    content = forms.CharField(label="", widget=forms.Textarea(attrs={'id':'content', 'placeholder':'Content', 'class':'form-control', 'rows':'18'}))
 
 search_form = NewTasksForm()
 
@@ -53,3 +59,16 @@ def search(request):
                     return render(request, "encyclopedia/error.html", {
                         "search_form": search_form
                     })
+
+def new(request):
+    if request.method == "POST":
+        pass
+
+    else:
+        new_title_form = NewTitleForm()
+        new_content_form = NewContentForm()
+        return render(request, "encyclopedia/new.html", {
+            "new_title_form": new_title_form,
+            "new_content_form": new_content_form,
+            "search_form": search_form
+        })
