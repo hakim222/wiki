@@ -2,8 +2,10 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django import forms
+from random import choice
 from . import util
 import markdown2
+
 
 
 class NewTasksForm(forms.Form):
@@ -23,11 +25,11 @@ def index(request):
 
 def title(request, title):
     
-    title = util.get_entry(title)
+    entry = util.get_entry(title)
 
     if title is not None:
         return render(request, "encyclopedia/title.html", {
-            "entry": markdown2.markdown(title),
+            "entry": markdown2.markdown(entry),
             "title": title,
             "search_form": search_form
         })
@@ -77,6 +79,11 @@ def new(request):
             "new_content_form": new_page_form["content"],
             "search_form": search_form
         })
+
+def random(request):
+    entries = util.list_entries()
+    random_page = choice(entries)
+    return HttpResponseRedirect(reverse("title", kwargs={"title":random_page}))
 
 def error(request, message):
     return render(request, "encyclopedia/error.html", {
